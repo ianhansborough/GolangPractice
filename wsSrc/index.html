@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <title>Websocket Test</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/2.1.0/socket.io.dev.js" charset="utf-8"></script>
+    <script src="https://code.jquery.com/jquery-1.11.1.js"></script>
+    <style media="screen">
+      html, body {
+        font-size: 67.5%;
+        font-family: sans-serif;
+      }
+      * {
+        margin: 0;
+        padding: 0;
+      }
+      .chat-cont{
+        max-width: 30rem;
+        width: calc(100% - 4rem);
+        margin: auto;
+        border: 1px solid #dcdcdc;
+
+        margin-top: 4rem;
+        box-shadow: box-shadow: 0 10px 10px 0 rgba(0, 0, 0, 0.1), 0 2px 4px 0 rgba(0, 0, 0, 0.05);
+      }
+      .title {
+        text-transform: uppercase;
+        font-size: 1.8rem;
+        text-align: center;
+        letter-spacing: 4px;
+        padding-top: 3rem;
+
+      }
+      .messages-cont {
+        width: 100%;
+        font-size: 1.4rem;
+        list-style: none;
+        padding: 0;
+        margin: 0;
+        padding-bottom: 4rem;
+        padding-top: 4rem;
+        min-height: 30rem;
+      }
+      .message {
+        padding: 1rem;
+      }
+      .message.heading {
+        font-weight: bold;
+        border-bottom: 1px solid #000;
+      }
+      .message-input {
+        width: calc(100%);
+        box-sizing: border-box;
+        font-size: 1.4rem;
+        outline: none;
+        border: 1px solid #dcdcdc;
+        padding: 1rem;
+      }
+      .message-input::placeholder {
+        color: #ccc;
+      }
+    </style>
+  </head>
+  <body>
+    <form class="chat-cont">
+      <p class="title">Websocket test</p>
+      <ul class="messages-cont" id="messages">
+        <li class="message heading">Your messages</li>
+
+      </ul>
+      <input class="message-input" type="text" id="m" placeholder="press ENTER to send message">
+    </form>
+    <script type="text/javascript">
+      console.log('Hello there :))');
+      var socket = io();
+      $('form').submit(function(e) {
+        e.preventDefault()
+        socket.emit('chat message', $('#m').val());
+        $('#m').val("");
+        return false;
+      })
+      socket.on('chat message', function(msg) {
+        $('#messages').append($('<li class="message">').text(msg));
+      })
+    </script>
+  </body>
+</html>
